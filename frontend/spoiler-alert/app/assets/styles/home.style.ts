@@ -34,6 +34,11 @@ export const addItemStyles = () => {
             borderWidth: 0.5,
             borderRadius: 5
         },
+        modalButton: {
+            borderWidth: 1,
+            padding: 5, 
+            borderRadius: 15
+        },
         buttonContainer:{
             flexDirection: "row",
             justifyContent: "center",
@@ -50,11 +55,26 @@ export const addItemStyles = () => {
         buttonText:{
             alignItems: "center",
             padding: 5,
-            fontWeight: "bold"
+            fontWeight: "bold",
         }
 
     });
 
+    return styles;
+}
+
+export const displayDateStyles = () => {
+    const styles = StyleSheet.create({
+        dateContainer:{
+            alignItems: "center",
+        },
+        dateText:{
+            fontSize: 12,
+        },
+        date:{
+            fontSize: 20,
+        }
+    });
     return styles;
 }
 
@@ -63,12 +83,61 @@ export const homePageStyles = () => {
         container:{
             flex: 1,
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            padding: 5
+        },
+        welcomeMsg:{
+            width: '80%',
+            height: '5%',
+            marginTop: 20,
+            alignItems: "center",
+            justifyContent: "center",
+        },
+        welcomeMsgText:{
+            fontSize: 20,
+            fontWeight: "heavy"
+        },
+        dateContainer:{
+            height: '5%',
+            margin: 5,
+        },
+        itemWrapper: {
+            width: '100%',
+            height: '75%',
+            margin: 10,
+            justifyContent: "space-between",
+        },
+        itemContainer: {
+            height: '30%',
+            width: '95%',
+            padding: 5,
+            margin: 10,
+        },
+        itemHeader:{
+            marginLeft: 3,
+            fontSize: 18,
+            fontWeight: 'bold'
+        },
+        itemContentContainer: {
+          borderWidth: 1,
+          width: '98%',
+          height: '85%',
+          alignSelf: 'center'
+        },
+        expiryItemWrapper: {
+            borderColor: "red",
+        },
+        nearExpiryItemWrapper: {
+            borderColor: "yellow"
+        },
+        safeItemWrapper: {
+            borderColor: "green"
         },
         addButton: {
             width: 150,
+            maxHeight: '15%',
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
         }
      })
 

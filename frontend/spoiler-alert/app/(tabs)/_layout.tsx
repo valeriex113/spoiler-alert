@@ -41,9 +41,9 @@ const TabsLayout = () => {
         />
 
         <Tabs.Screen
-            name = "profile"
+            name = "settings"
             options = {{
-                title: "Profile",
+                title: "Settings",
                 tabBarIcon: () => (
                     <Ionicons name= "person-outline"/>
                 )   

@@ -1,6 +1,7 @@
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
-import { Button, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { addItemStyles } from "../assets/styles/home.style";
 
 const AddItem = () => {
@@ -13,12 +14,19 @@ const AddItem = () => {
         date: ""
     });
 
+    const [newDate, setDate] = useState(null);
+    const [showPicker, setPicker] = useState(false);
+    
     const foodCategories = ["Fruits and Vegetables", "Meat and Dairy", "Carbohydrates", "Others"];
     const [itemList, setItemList] = useState([]);
 
+    const handleDateChange = () => {
+        
+    }
+
     const handleSubmit = () => {
         if (newItem.itemName.trim() === "") return;
-        // Missing adding item to theitem list
+        // Missing adding item to the item list
         handleCancel();
     }
 
@@ -33,7 +41,9 @@ const AddItem = () => {
         
     return (
         <View>
-            <Button title="Add an Item" onPress={() => setVisible(true)}/>
+            <TouchableOpacity style={styles.modalButton} onPress={() => setVisible(true)}>
+                <Text style={styles.buttonText}>+ Add an item</Text>
+            </TouchableOpacity>
 
             <Modal
                 id="modal add item"
@@ -63,10 +73,20 @@ const AddItem = () => {
                             </Picker>
                         </View>    
 
-
-                        <Text>
-                            Date Picker to be Added!
-                        </Text>
+                        <View>
+                            <TouchableOpacity onPress={() => setPicker(true)}>
+                                Select the Expiry Date
+                            </TouchableOpacity>
+                            {
+                                showPicker && (
+                                    <DateTimePicker 
+                                        mode={'date'}
+                                        value={newDate || new Date()}
+                                        onChange={handleDateChange}
+                                    />
+                                )
+                            }
+                        </View>
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button} onPress={() => handleCancel()}>
