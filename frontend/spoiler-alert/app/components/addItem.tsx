@@ -1,11 +1,12 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { addItemStyles } from "../assets/styles/home.style";
+import { buttonItemStyles } from "../assets/styles/home.style";
 
 const AddItem = () => {
-    const styles = addItemStyles();
+    const styles = buttonItemStyles();
 
     const [isModalVisible, setVisible] = useState(false);
     const [newItem, setNewItem] = useState({
@@ -14,18 +15,26 @@ const AddItem = () => {
         date: ""
     });
 
-    const [newDate, setDate] = useState(null);
+    const [newDate, setDate] = useState(new Date());
+    const [dateText, setDateText] = useState("Select Date")
     const [showPicker, setPicker] = useState(false);
+
+    const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        setPicker(false);
+
+        if (selectedDate) {
+                setDate(selectedDate);
+                let fDate = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+                setDateText(fDate);
+        }
+    }
     
     const foodCategories = ["Fruits and Vegetables", "Meat and Dairy", "Carbohydrates", "Others"];
     const [itemList, setItemList] = useState([]);
 
-    const handleDateChange = () => {
-        
-    }
 
     const handleSubmit = () => {
-        if (newItem.itemName.trim() === "") return;
+        // if (newItem.itemName.trim() === "") return;
         // Missing adding item to the item list
         handleCancel();
     }
@@ -36,13 +45,15 @@ const AddItem = () => {
             category: "Fruits and Vegetables",
             date: ""
         });
+        setDate(new Date())    
+        setDateText("Select Date")
         setVisible(false);
     }
         
     return (
         <View>
             <TouchableOpacity style={styles.modalButton} onPress={() => setVisible(true)}>
-                <Text style={styles.buttonText}>+ Add an item</Text>
+                <Text style={styles.buttonText}>+ Add Item</Text>
             </TouchableOpacity>
 
             <Modal
@@ -54,15 +65,18 @@ const AddItem = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.instructionText}>Enter the item name:</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder="E.g. Bread"
-                            value={newItem.itemName}
-                            onChangeText={(e) => setNewItem({...newItem, itemName: e})} 
-                        />
+                        <View style={styles.textInput}>
+                            <TextInput
+                                placeholder=" E.g. Bread"
+                                value={newItem.itemName}
+                                onChangeText={(e) => setNewItem({...newItem, itemName: e})} 
+                            />
+
+                        </View>
+
 
                         <Text style={styles.instructionText}>Choose the food category:</Text>
-                        <View style={styles.picker}>
+                        <View style={styles.textInput}>
                             <Picker
                                 selectedValue={newItem.category}
                                 onValueChange={(e) => setNewItem({...newItem, category: e})}
@@ -73,14 +87,18 @@ const AddItem = () => {
                             </Picker>
                         </View>    
 
-                        <View>
+                        <Text style={styles.instructionText}>Select the Date</Text>
+                        <View style={[styles.textInput, styles.datePicker]}>
+                            <Text> {dateText}</Text>
                             <TouchableOpacity onPress={() => setPicker(true)}>
-                                Select the Expiry Date
+                                <Ionicons name="calendar-outline"/>
                             </TouchableOpacity>
+
                             {
                                 showPicker && (
                                     <DateTimePicker 
                                         mode={'date'}
+                                        display={"calendar"}
                                         value={newDate || new Date()}
                                         onChange={handleDateChange}
                                     />
@@ -97,8 +115,6 @@ const AddItem = () => {
                             </TouchableOpacity>
 
                         </View>
-                        
-
                     </View>
                 </View>
             </Modal>
