@@ -10,7 +10,7 @@ import FoodStatusChart from '../components/foodStatusChart';
 import HomeDashboardSheet from '../components/homeDashboardSheet';
 import TodaysDate from '../components/todaysDate';
 import { Button, Card } from '../components/ui';
-import { FoodItem, FoodStatus, useFoodItems, addFoodItem } from '../components/foodData'; // <-- import type + hook
+import { FoodItem, FoodStatus, useFoodItems, addFoodItem } from '../components/foodData'; 
 
 const CATEGORY_ICON: Record<string, keyof typeof Ionicons.glyphMap> = {
   'Fruits and Vegetables': 'leaf-outline',
