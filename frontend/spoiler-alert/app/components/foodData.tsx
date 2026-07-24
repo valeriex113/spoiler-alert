@@ -9,21 +9,22 @@ export type FoodItem = {
   category: string;
   expiryDate: string;
   status: FoodStatus;
+  quantity: number;
 };
 
 let FOOD_ITEMS: FoodItem[] = [
-  { id: '1', name: 'Bread', category: 'Carbohydrates', expiryDate: 'Jul 25, 2026', status: 'near' },
-  { id: '2', name: 'Vegetables', category: 'Fruits and Vegetables', expiryDate: 'Jul 26, 2026', status: 'near' },
-  { id: '3', name: 'Milk', category: 'Meat and Dairy', expiryDate: 'Aug 2, 2026', status: 'safe' },
-  { id: '4', name: 'Yogurt', category: 'Meat and Dairy', expiryDate: 'Aug 5, 2026', status: 'safe' },
-  { id: '5', name: 'Eggs', category: 'Meat and Dairy', expiryDate: 'Aug 20, 2026', status: 'safe' },
-  { id: '6', name: 'Cheese', category: 'Meat and Dairy', expiryDate: 'Sep 1, 2026', status: 'safe' },
-  { id: '7', name: 'Butter', category: 'Meat and Dairy', expiryDate: 'Sep 10, 2026', status: 'safe' },
-  { id: '8', name: 'Chicken', category: 'Meat and Dairy', expiryDate: 'Jul 18, 2026', status: 'expired' },
-  { id: '9', name: 'Fish', category: 'Meat and Dairy', expiryDate: 'Jul 15, 2026', status: 'expired' },
-  { id: '10', name: 'Spinach', category: 'Fruits and Vegetables', expiryDate: 'Jul 10, 2026', status: 'expired' },
-  { id: '11', name: 'Strawberries', category: 'Fruits and Vegetables', expiryDate: 'Jul 20, 2026', status: 'expired' },
-  { id: '12', name: 'Leftover Rice', category: 'Carbohydrates', expiryDate: 'Jul 12, 2026', status: 'expired' },
+  { id: '1', name: 'Bread', category: 'Carbohydrates', expiryDate: 'Jul 25, 2026', status: 'near' , quantity: 1},
+  { id: '2', name: 'Vegetables', category: 'Fruits and Vegetables', expiryDate: 'Jul 26, 2026', status: 'near' , quantity: 1},
+  { id: '3', name: 'Milk', category: 'Meat and Dairy', expiryDate: 'Aug 2, 2026', status: 'safe', quantity: 1 },
+  { id: '4', name: 'Yogurt', category: 'Meat and Dairy', expiryDate: 'Aug 5, 2026', status: 'safe', quantity: 1 },
+  { id: '5', name: 'Eggs', category: 'Meat and Dairy', expiryDate: 'Aug 20, 2026', status: 'safe', quantity: 2 },
+  { id: '6', name: 'Cheese', category: 'Meat and Dairy', expiryDate: 'Sep 1, 2026', status: 'safe', quantity: 2 },
+  { id: '7', name: 'Butter', category: 'Meat and Dairy', expiryDate: 'Sep 10, 2026', status: 'safe', quantity: 1 },
+  { id: '8', name: 'Chicken', category: 'Meat and Dairy', expiryDate: 'Jul 18, 2026', status: 'expired', quantity: 1 },
+  { id: '9', name: 'Fish', category: 'Meat and Dairy', expiryDate: 'Jul 15, 2026', status: 'expired', quantity: 1 },
+  { id: '10', name: 'Spinach', category: 'Fruits and Vegetables', expiryDate: 'Jul 10, 2026', status: 'expired', quantity: 1 },
+  { id: '11', name: 'Strawberries', category: 'Fruits and Vegetables', expiryDate: 'Jul 20, 2026', status: 'expired', quantity: 2 },
+  { id: '12', name: 'Leftover Rice', category: 'Carbohydrates', expiryDate: 'Jul 12, 2026', status: 'expired', quantity: 1 },
 ];
 
 type Listener = () => void;
@@ -60,13 +61,14 @@ function computeStatus(expiryDate: Date): FoodStatus {
     return 'safe';
 }
 
-export function addFoodItem(item: { name: string; category: string; date: Date }) {
+export function addFoodItem(item: { name: string; category: string; date: Date; quantity: number }) {
     const newItem: FoodItem = {
         id: Date.now().toString(),
         name: item.name.trim(),
         category: item.category,
         expiryDate: formatDate(item.date),
         status: computeStatus(item.date),
+        quantity: item.quantity
     };
 
     FOOD_ITEMS = [...FOOD_ITEMS, newItem];

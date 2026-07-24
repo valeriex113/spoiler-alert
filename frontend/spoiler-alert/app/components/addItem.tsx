@@ -5,7 +5,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { componentStyles } from "../assets/styles/add.item.style";
 import { Button } from "./ui";
-import { colors } from "../constants/theme";
+import { colors, statusColors } from "../constants/theme";
 import { addFoodItem } from "./foodData"
 
 export type AddItemHandle = {
@@ -25,6 +25,8 @@ const AddItem = forwardRef<AddItemHandle, Props>(({ hideTrigger }, ref) => {
         category: "Fruits and Vegetables",
         date: ""
     });
+    const [quantity, setQuantity] = useState("1");
+    const [quantityError, setQuantityError] = useState(false);
 
     useImperativeHandle(ref, () => ({
         open: () => setVisible(true),
@@ -46,14 +48,26 @@ const AddItem = forwardRef<AddItemHandle, Props>(({ hideTrigger }, ref) => {
 
     const foodCategories = ["Fruits and Vegetables", "Meat and Dairy", "Carbohydrates", "Others"];
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (newItem.itemName.trim() === "") return;
 
-        addFoodItem({
-            name: newItem.itemName,
-            category: newItem.category,
-            date: newDate,
-        });
+        const parsedQuantity = parseInt(quantity, 10);
+        if (!Number.isInteger(parsedQuantity) || parsedQuantity <= 0) {
+            setQuantityError(true);
+            return;
+        }
+        setQuantityError(false);
+
+        try {
+            await addFoodItem({
+                name: newItem.itemName,
+                category: newItem.category,
+                date: newDate,
+                quantity: parsedQuantity,
+            });
+        } catch (e) {
+            console.error("Failed to add item:", e);
+        }
 
         handleCancel();
     }
@@ -64,6 +78,8 @@ const AddItem = forwardRef<AddItemHandle, Props>(({ hideTrigger }, ref) => {
             category: "Fruits and Vegetables",
             date: ""
         });
+        setQuantity("1");
+        setQuantityError(false);
         setDate(new Date())
         setDateText("Select Date")
         setVisible(false);
@@ -92,6 +108,24 @@ const AddItem = forwardRef<AddItemHandle, Props>(({ hideTrigger }, ref) => {
 
                         </View>
 
+                        <Text style={styles.instructionText}>Quantity:</Text>
+                        <View style={styles.textInput}>
+                            <TextInput
+                                placeholder="1"
+                                placeholderTextColor={colors.textTertiary}
+                                value={quantity}
+                                onChangeText={(text) => {
+                                    setQuantity(text.replace(/[^0-9]/g, ""));
+                                    if (quantityError) setQuantityError(false);
+                                }}
+                                keyboardType="number-pad"
+                            />
+                        </View>
+                        {quantityError && (
+                            <Text style={{ color: statusColors.expired.fg, fontSize: 12, marginTop: -8, marginBottom: 8 }}>
+                                Must enter a quantity larger than 0
+                            </Text>
+                        )}
 
                         <Text style={styles.instructionText}>Choose the food category:</Text>
                         <View style={styles.textInput}>
