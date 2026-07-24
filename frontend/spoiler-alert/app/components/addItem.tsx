@@ -6,6 +6,7 @@ import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { componentStyles } from "../assets/styles/add.item.style";
 import { Button } from "./ui";
 import { colors } from "../constants/theme";
+import { addFoodItem } from "./foodData"
 
 export type AddItemHandle = {
     open: () => void;
@@ -45,10 +46,15 @@ const AddItem = forwardRef<AddItemHandle, Props>(({ hideTrigger }, ref) => {
 
     const foodCategories = ["Fruits and Vegetables", "Meat and Dairy", "Carbohydrates", "Others"];
 
-
     const handleSubmit = () => {
-        // if (newItem.itemName.trim() === "") return;
-        // Missing adding item to the item list
+        if (newItem.itemName.trim() === "") return;
+
+        addFoodItem({
+            name: newItem.itemName,
+            category: newItem.category,
+            date: newDate,
+        });
+
         handleCancel();
     }
 
