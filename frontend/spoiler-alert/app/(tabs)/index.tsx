@@ -6,8 +6,8 @@ import { homePageStyles } from '../assets/styles/home.style';
 import { colors, statusColors } from '../constants/theme';
 import AddItem, { AddItemHandle } from '../components/addItem';
 import AddPhoto, { AddPhotoHandle } from '../components/addPhoto';
-import FoodStatusChart from '../components/foodStatusChart';
 import HomeDashboardSheet from '../components/homeDashboardSheet';
+import SemiDonutChart from '../components/semiDonutChart';
 import TodaysDate from '../components/todaysDate';
 import { Button, Card } from '../components/ui';
 import { FoodItem, FoodStatus, useFoodItems, addFoodItem } from '../components/foodData'; 
@@ -101,10 +101,12 @@ const Home = () => {
       <StatusBar barStyle={bannerRevealed ? 'light-content' : 'dark-content'} />
 
       <HomeDashboardSheet onRevealChange={setBannerRevealed}>
-        <Card>
-          <Text style={styles.todayLabel}>TODAY</Text>
+        <View style={styles.pageHeader}>
+          <Text style={styles.pageTitle}>TODAY</Text>
           <TodaysDate />
+        </View>
 
+        <Card>
           <View style={styles.statsRow}>
             <View style={styles.statTile}>
               <Text style={styles.statLabel}>Food in Fridge</Text>
@@ -124,11 +126,11 @@ const Home = () => {
               </Text>
             </View>
           )}
+        </Card>
 
-          <View style={styles.sectionDivider} />
-
+        <Card style={styles.chartCard}>
           <Text style={styles.chartLabel}>Food Status</Text>
-          <FoodStatusChart counts={statusCounts} />
+          <SemiDonutChart counts={statusCounts} />
         </Card>
 
         <FoodCarousel title="Near Expiry" status="near" items={nearItems} styles={styles} />
